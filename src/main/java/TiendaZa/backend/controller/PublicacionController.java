@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/publicaciones")
-@CrossOrigin(origins = "*") // para permitir peticiones desde Android
+@CrossOrigin(origins = "*")
 public class PublicacionController {
 
     private final PublicacionService service;
@@ -18,26 +18,55 @@ public class PublicacionController {
         this.service = service;
     }
 
+    // 1) LISTAR TODAS
     @GetMapping
     public List<Publicacion> getAll() {
         return service.getAll();
     }
 
+    // 2) OBTENER POR ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Publicacion> getById(@PathVariable Long id) {
+        Publicacion pub = service.getById(id);
+        if (pub == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(pub);
+    }
+
+    // 3) BUSCAR POR TITULO (query ?q=texto)
     @GetMapping("/search")
-    public List<Publicacion> search(@RequestParam(required = false) String query) {
+    public List<Publicacion> search(@RequestParam(name = "query", required = false) String query) {
         return service.search(query);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Publicacion> getById(@PathVariable Long id) {
-        Publicacion p = service.getById(id);
-        if (p == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(p);
-    }
-
+    // 4) CREAR
     @PostMapping
     public ResponseEntity<Publicacion> create(@RequestBody Publicacion publicacion) {
-        Publicacion created = service.create(publicacion);
-        return ResponseEntity.ok(created);
+        Publicacion creada = service.create(publicacion);
+        return ResponseEntity.ok(creada);
+    }
+
+    // 5) ACTUALIZAR
+    @PutMapping("/{id}")
+    public ResponseEntity<Publicacion> update(
+            @PathVariable Long id,
+            @RequestBody Publicacion data) {
+
+        Publicacion actualizada = service.update(id, data);
+        if (actualizada == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(actualizada);
+    }
+
+    // 6) ELIMINAR
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean eliminado = service.delete(id);
+        if (!eliminado) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }
