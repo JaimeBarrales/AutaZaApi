@@ -69,17 +69,36 @@ public class PublicacionController {
         }
         return ResponseEntity.noContent().build();
     }
-
     @PostMapping(
             value = "/con-imagen",
             consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE
     )
-    public ResponseEntity<Publicacion> createWithImage(
-            @RequestPart("image") org.springframework.web.multipart.MultipartFile image,
-            @RequestPart("titulo") String titulo,
-            @RequestPart("descripcion") String descripcion,
-            @RequestPart("precio") Integer precio
+    public ResponseEntity<?> createWithImage(
+            @RequestParam("image") org.springframework.web.multipart.MultipartFile image,
+            @RequestParam("titulo") String titulo,
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("precio") String precioStr
     ) {
+        if (image == null || image.isEmpty()) {
+            return ResponseEntity.badRequest().body("Falta la imagen (campo 'image')");
+        }
+        if (titulo == null || titulo.isBlank()) {
+            return ResponseEntity.badRequest().body("Falta el título (campo 'titulo')");
+        }
+        if (descripcion == null || descripcion.isBlank()) {
+            return ResponseEntity.badRequest().body("Falta la descripción (campo 'descripcion')");
+        }
+        if (precioStr == null || precioStr.isBlank()) {
+            return ResponseEntity.badRequest().body("Falta el precio (campo 'precio')");
+        }
+
+        Integer precio;
+        try {
+            precio = Integer.valueOf(precioStr.trim());
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("El precio debe ser un número entero. Valor recibido: " + precioStr);
+        }
+
         String urlImg = image.getOriginalFilename();
 
         Publicacion nueva = new Publicacion(
@@ -93,7 +112,4 @@ public class PublicacionController {
         Publicacion creada = service.create(nueva);
         return ResponseEntity.ok(creada);
     }
-
 }
-
-
