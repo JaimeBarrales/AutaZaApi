@@ -80,10 +80,7 @@ public class PublicacionController {
             @RequestPart("descripcion") String descripcion,
             @RequestPart("precio") Integer precio
     ) {
-        // TODO: aquí podrías guardar la imagen en disco o en un storage externo.
-        // Por ahora, solo usaremos el nombre del archivo como urlImg "falsa" para probar.
-
-        String urlImg = image.getOriginalFilename(); // luego puedes cambiar esto a una URL real
+        String urlImg = image.getOriginalFilename();
 
         Publicacion nueva = new Publicacion(
                 null,
@@ -98,3 +95,5 @@ public class PublicacionController {
     }
 
 }
+
+
