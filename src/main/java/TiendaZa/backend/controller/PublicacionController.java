@@ -69,4 +69,32 @@ public class PublicacionController {
         }
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping(
+            value = "/con-imagen",
+            consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<Publicacion> createWithImage(
+            @RequestPart("image") org.springframework.web.multipart.MultipartFile image,
+            @RequestPart("titulo") String titulo,
+            @RequestPart("descripcion") String descripcion,
+            @RequestPart("precio") Integer precio
+    ) {
+        // TODO: aquí podrías guardar la imagen en disco o en un storage externo.
+        // Por ahora, solo usaremos el nombre del archivo como urlImg "falsa" para probar.
+
+        String urlImg = image.getOriginalFilename(); // luego puedes cambiar esto a una URL real
+
+        Publicacion nueva = new Publicacion(
+                null,
+                titulo,
+                descripcion,
+                precio,
+                urlImg
+        );
+
+        Publicacion creada = service.create(nueva);
+        return ResponseEntity.ok(creada);
+    }
+
 }
