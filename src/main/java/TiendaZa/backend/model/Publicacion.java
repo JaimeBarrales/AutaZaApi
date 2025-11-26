@@ -12,12 +12,16 @@ public class Publicacion {
 
     private String titulo;
 
-    @Column(length = 2000)
+    @Column(length = 1000)
     private String descripcion;
 
     private Integer precio;
 
+    @Column(columnDefinition = "TEXT")
     private String urlImg;
+
+    // constructores, getters, setters...
+
 
     // Constructor vacío (OBLIGATORIO para JPA)
     public Publicacion() {
@@ -40,7 +44,6 @@ public class Publicacion {
         this.urlImg = urlImg;
     }
 
-    // ========= GETTERS Y SETTERS =========
 
     public Long getId() {
         return id;
