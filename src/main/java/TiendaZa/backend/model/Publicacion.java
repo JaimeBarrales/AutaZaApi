@@ -20,22 +20,10 @@ public class Publicacion {
     @Column(columnDefinition = "TEXT")
     private String urlImg;
 
-    // constructores, getters, setters...
+    // Constructor vacío
+    public Publicacion() {}
 
-
-    // Constructor vacío (OBLIGATORIO para JPA)
-    public Publicacion() {
-    }
-
-    // Constructor con parámetros sin id (útil para crear nuevas)
-    public Publicacion(String titulo, String descripcion, Integer precio, String urlImg) {
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.precio = precio;
-        this.urlImg = urlImg;
-    }
-
-    // Constructor completo con id (por si lo necesitas)
+    // Constructor completo
     public Publicacion(Long id, String titulo, String descripcion, Integer precio, String urlImg) {
         this.id = id;
         this.titulo = titulo;
@@ -44,44 +32,19 @@ public class Publicacion {
         this.urlImg = urlImg;
     }
 
+    // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getTitulo() { return titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public String getTitulo() {
-        return titulo;
-    }
+    public Integer getPrecio() { return precio; }
+    public void setPrecio(Integer precio) { this.precio = precio; }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Integer getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Integer precio) {
-        this.precio = precio;
-    }
-
-    public String getUrlImg() {
-        return urlImg;
-    }
-
-    public void setUrlImg(String urlImg) {
-        this.urlImg = urlImg;
-    }
+    public String getUrlImg() { return urlImg; }
+    public void setUrlImg(String urlImg) { this.urlImg = urlImg; }
 }
